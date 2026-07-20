@@ -1,0 +1,382 @@
+<title>Выпуск 05 · Созвон: все правки сценария</title>
+<style>
+  :root{
+    --bg:#FBFBFA; --panel:#FFFFFF; --ink:#16181B; --muted:#5C636B; --line:#E4E6E4;
+    --blue:#2A78D6; --red:#E3453C; --amber:#C98A00; --amber-seg:#F5A800; --green:#1E8A3C;
+    --red-soft:#FBEAE9; --amber-soft:#FBF3DE; --green-soft:#E8F3EA; --blue-soft:#EAF2FC;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#131518; --panel:#1B1E22; --ink:#ECEDEE; --muted:#9AA1A9; --line:#2C3036;
+    --blue:#5D9BE4; --red:#EF6C63; --amber:#E0A93B; --amber-seg:#D9A22F; --green:#57A96A;
+    --red-soft:#33211F; --amber-soft:#322A18; --green-soft:#1D2B20; --blue-soft:#1D2836;}
+  }
+  :root[data-theme="dark"]{--bg:#131518; --panel:#1B1E22; --ink:#ECEDEE; --muted:#9AA1A9; --line:#2C3036;
+    --blue:#5D9BE4; --red:#EF6C63; --amber:#E0A93B; --amber-seg:#D9A22F; --green:#57A96A;
+    --red-soft:#33211F; --amber-soft:#322A18; --green-soft:#1D2B20; --blue-soft:#1D2836;}
+  :root[data-theme="light"]{--bg:#FBFBFA; --panel:#FFFFFF; --ink:#16181B; --muted:#5C636B; --line:#E4E6E4;
+    --blue:#2A78D6; --red:#E3453C; --amber:#C98A00; --amber-seg:#F5A800; --green:#1E8A3C;
+    --red-soft:#FBEAE9; --amber-soft:#FBF3DE; --green-soft:#E8F3EA; --blue-soft:#EAF2FC;}
+  *{box-sizing:border-box}
+  body{background:var(--bg); color:var(--ink); font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; margin:0; padding:0 20px 90px;}
+  main{max-width:880px; margin:0 auto;}
+  h1{font-size:clamp(25px,4.3vw,36px); line-height:1.15; letter-spacing:-0.02em; text-wrap:balance; margin:44px 0 8px; font-weight:800;}
+  h2{font-size:20px; letter-spacing:-0.01em; margin:0; font-weight:750;}
+  p{margin:0 0 10px;}
+  .sub{color:var(--muted); max-width:66ch; margin-bottom:14px;}
+  .eyebrow{font:600 11px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--muted);}
+  section{margin:38px 0 0;}
+  .sec-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; border-top:2px solid var(--ink); padding-top:14px; margin-bottom:10px;}
+  .sec-head .time{font:700 12px/1 var(--mono); color:var(--muted);}
+
+  .tl-wrap{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 18px 12px; overflow-x:auto; margin:18px 0 16px;}
+  .tl{min-width:640px;}
+  .tl-bar{display:flex; height:46px; border-radius:8px; overflow:hidden; border:1px solid var(--line);}
+  .tl-bar a, .tl-bar span{display:block; height:100%; position:relative;}
+  .tl-bar a{text-decoration:none; outline-offset:-3px;}
+  .tl-bar a::before{content:attr(data-z); position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font:800 11px/1 var(--mono); color:#fff; white-space:nowrap;}
+  .tl-bar a.seg-fin::before{color:var(--green);}
+  .tl-bar a:hover::after,.tl-bar a:focus-visible::after{content:attr(data-tip); position:absolute; left:50%; top:-4px; transform:translate(-50%,-100%); background:var(--ink); color:var(--bg); font:600 11.5px/1.3 var(--mono); padding:6px 9px; border-radius:6px; white-space:nowrap; z-index:20;}
+  .seg-ok{background:var(--green-soft);} .seg-warn{background:var(--amber-seg);} .seg-bad{background:var(--red);}
+  .seg-fin{background:var(--green-soft);}
+  .tl-scale{display:flex; justify-content:space-between; font:600 11px/2.4 var(--mono); color:var(--muted);}
+  .legend{display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin-top:6px;}
+  .legend i{display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:6px; vertical-align:-1px;}
+
+  .counter{position:sticky; top:0; z-index:10; background:var(--bg); padding:10px 0; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .counter b{font:700 14px/1 var(--mono);}
+  .bar{flex:1; min-width:140px; height:8px; background:var(--panel); border:1px solid var(--line); border-radius:99px; overflow:hidden;}
+  .bar i{display:block; height:100%; width:0%; background:var(--green); transition:width .2s ease;}
+
+  .item{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin:12px 0; display:grid; grid-template-columns:auto 1fr; gap:6px 14px;}
+  .item.hi{border-left:4px solid var(--red);}
+  .item.mid{border-left:4px solid var(--amber-seg);}
+  .item.fact{border-left:4px solid var(--blue);}
+  .item.idea{border-left:4px solid var(--green);}
+  .chk{padding-top:2px;}
+  .chk input{width:22px; height:22px; accent-color:var(--green); cursor:pointer;}
+  .it-head{display:flex; align-items:baseline; gap:9px; flex-wrap:wrap;}
+  .num{font:800 12px/1 var(--mono); color:var(--muted);}
+  .it-head h3{font-size:15.5px; margin:0; font-weight:750;}
+  .lvl{font:700 10px/1 var(--mono); letter-spacing:.09em; text-transform:uppercase; padding:4px 8px; border-radius:6px;}
+  .lvl.hi{background:var(--red-soft); color:var(--red);}
+  .lvl.mid{background:var(--amber-soft); color:var(--amber);}
+  .lvl.fact{background:var(--blue-soft); color:var(--blue);}
+  .lvl.idea{background:var(--green-soft); color:var(--green);}
+  .body{grid-column:2; font-size:14.5px;}
+  .body .was{color:var(--muted); font-style:italic;}
+  .body .why{margin:4px 0;}
+  .body .why b{color:var(--red);}
+  .item.mid .body .why b{color:var(--amber);}
+  .item.fact .body .why b{color:var(--blue);}
+  .item.idea .body .why b{color:var(--green);}
+  .do{background:var(--green-soft); border-radius:8px; padding:8px 12px; margin-top:6px;}
+  .do b{color:var(--green); font:700 10.5px/1.8 var(--mono); letter-spacing:.09em; text-transform:uppercase; display:block;}
+  details{margin-top:6px;}
+  summary{cursor:pointer; font:600 13px/1.6 var(--mono); color:var(--blue);}
+  details blockquote{margin:6px 0 0; padding:9px 12px; border-left:3px solid var(--green); background:var(--bg); border-radius:0 8px 8px 0; font-size:14px;}
+  .note{font-size:13.5px; color:var(--muted); margin-top:28px; max-width:70ch;}
+  .keep{background:var(--green-soft); border-radius:10px; padding:12px 16px; font-size:14.5px;}
+</style>
+
+<main>
+  <span class="eyebrow">Битва за рынок · Выпуск 05 «Супермаркеты» · сценарий Жени от 17.07 · страница для созвона Артур × Женя × Оля</span>
+  <h1>Все правки выпуска — по порядку ролика</h1>
+  <p class="sub">Сначала таймлайн — карта отвала целиком. Потом идём хронологически: с первой секунды до финала, пункт за пунктом. По каждому: что сейчас → почему меняем → предложение (у многих — готовый текст под спойлером). Галочка = «приняли». Финальное слово за вами.</p>
+
+  <div class="tl-wrap">
+    <div class="tl">
+      <div class="tl-bar" aria-label="Таймлайн вероятности отвала — сегменты ведут к пунктам">
+        <a class="seg-warn" style="width:4.8%"  href="#s1" data-z="01" data-tip="0:00–1:30 · хук"></a>
+        <a class="seg-ok"   style="width:6.8%"  href="#s2" data-z="" data-tip="1:30–3:36 · лестница игроков · пункт 02"></a>
+        <a class="seg-bad"  style="width:15.8%" href="#s3" data-z="03–04" data-tip="3:36–8:30 · глава 90-х"></a>
+        <a class="seg-bad"  style="width:10.0%" href="#s4" data-z="05–06" data-tip="8:30–11:36 · глава 2000-х"></a>
+        <span class="seg-ok" style="width:9.7%"></span>
+        <a class="seg-warn" style="width:5.8%"  href="#s5" data-z="07–08" data-tip="14:36–16:24 · монолог + первый СТА"></a>
+        <span class="seg-ok" style="width:5.2%"></span>
+        <a class="seg-warn" style="width:2.9%"  href="#s6" data-z="09" data-tip="18:00–18:54 · Германия"></a>
+        <a class="seg-warn" style="width:2.6%"  href="#s7" data-z="10" data-tip="19:36 · второй СТА"></a>
+        <a class="seg-ok"   style="width:19.7%" href="#s8" data-z="" data-tip="20:24–25:54 · Чижик и ВкусВилл ок · пункты 11–12"></a>
+        <a class="seg-bad"  style="width:2.6%"  href="#s9" data-z="13–16" data-tip="25:54–26:36 · финальная таблица"></a>
+        <a class="seg-fin"  style="width:14.1%" href="#s10" data-z="17–20" data-tip="26:36–31:00 · финал: отвал низкий, но правки послевкусия"></a>
+      </div>
+      <div class="tl-scale"><span>0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>31 мин</span></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--red)"></i>высокая вероятность отвала</span>
+      <span><i style="background:var(--amber-seg)"></i>средняя</span>
+      <span><i style="background:var(--green-soft); border:1px solid var(--line)"></i>низкая</span>
+      <span>цифры на сегментах = номера пунктов, сегменты кликаются</span>
+    </div>
+  </div>
+
+  <div class="counter"><b><span id="done">0</span> / 22 принято</b><div class="bar"><i id="fill"></i></div><span style="font-size:13px;color:var(--muted)">галочки сохраняются на этом компьютере</span></div>
+
+  <!-- ═══ 0:00–1:30 ХУК ═══ -->
+  <section id="s1">
+    <div class="sec-head"><h2>Хук</h2><span class="time">0:00–1:30 · отвал: средний</span></div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q02"></div>
+      <div class="it-head"><span class="num">01</span><h3>Обещание выпуска — к 15-й секунде</h3><span class="lvl mid">отвал: средний</span></div>
+      <div class="body">
+        <p class="was">Сейчас обещание («в финале — победитель, на которого никто не поставил бы») звучит на ~90-й секунде; между «Сдачи не надо» и Ночью ковшей — справка про «150 000 точек… палатки, киоски, комки».</p>
+        <p class="why"><b>Почему:</b> первая минута — место, где уходит до половины зрителей; без обещания нет причины остаться.</p>
+        <details><summary>готовые первые 30 секунд</summary><blockquote>«Сдачи не надо!» Если вы хоть раз говорили эту фразу в окошко ларька — мы с вами из одного поколения. У каждого такого ларька был хозяин, часто из соседнего двора. А сегодня вы отдаёте деньги за еду людям, чьих имён не знаете. Этот выпуск — тридцать лет войны за ваш пакет продуктов. В финале — счёт и победитель, на которого в начале не поставил бы никто. Началась эта война с ночи, когда ларьки убили. Москва, февраль 2016 года…</blockquote></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 1:30–3:36 ЛЕСТНИЦА ═══ -->
+  <section id="s2">
+    <div class="sec-head"><h2>Лестница игроков</h2><span class="time">1:30–3:36 · отвал: низкий — блок работает, одна цифра</span></div>
+
+    <div class="item fact"><div class="chk"><input type="checkbox" data-k="q03"></div>
+      <div class="it-head"><span class="num">02</span><h3>«Каждый третий рубль» → «почти каждый третий»</h3><span class="lvl fact">уточнение</span></div>
+      <div class="body">
+        <p class="was">«Каждый третий рубль за еду проходит через кассы всего двух компаний» — строго это 29,7–30,2% (X5 ≈ 17% + «Магнит» ≈ 13%, INFOLine), а «каждый третий» = 33%.</p>
+        <div class="do"><b>Как надо</b>«почти каждый третий рубль» или «три рубля из десяти»</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 3:36–8:30 ГЛАВА 90-х ═══ -->
+  <section id="s3">
+    <div class="sec-head"><h2>Глава про 90-е</h2><span class="time">3:36–8:30 · отвал: высокий</span></div>
+
+    <div class="item hi"><div class="chk"><input type="checkbox" data-k="q04"></div>
+      <div class="it-head"><span class="num">03</span><h3>Рамка пари + квиз + сжать на четверть</h3><span class="lvl hi">отвал: высокий</span></div>
+      <div class="body">
+        <p class="was">Шесть историй основания подряд, абзацами по 47–84 слова, без конфликта — 5 минут справочника в зоне, где остаётся треть аудитории.</p>
+        <p class="why"><b>Почему:</b> зритель пришёл на детектив, а получает даты открытий → «посмотрю потом» → выход.</p>
+        <details><summary>готовые куски: рамка пари и квиз</summary><blockquote>Рамка (перед биографиями): «Сейчас покажу шестерых игроков. Одни ставят на красивые магазины западного образца, другие — на дешёвые у дома. Запомните, кто на что поставил: к концу выпуска одна из этих ставок сгорит полностью». Квиз (середина главы): «Внимание, вопрос. Кто из этой шестёрки первым исчезнет с карты: красавец с биржи, премиум для богатых или охотник за скидками? Сделайте ставку — проверим ближе к финалу».</blockquote></details>
+      </div>
+    </div>
+
+    <div class="item idea"><div class="chk"><input type="checkbox" data-k="q05"></div>
+      <div class="it-head"><span class="num">04</span><h3>Интеграция Каневского: 90-е как «Следствие вели»</h3><span class="lvl idea">новая идея</span></div>
+      <div class="body">
+        <p class="was">У Жени в тексте пометка «Подумать, как интегрировать Каневского». Предлагаю не гостя и не архивные кадры (права!), а <b>стилизацию</b>: вся глава про 90-е подаётся как выпуск детективной хроники — это идеально ложится в рамку «заказчика у убийства нет», выпуск и есть «следствие» по делу ларьков.</p>
+        <p class="why"><b>Почему это решает проблему зоны:</b> глава из справочника превращается в «дело №» → каждая биография становится «фигурантом», а не датой → есть интонационная игра и повод для перебивок каждые 30–40 секунд.</p>
+        <p><b>Звуком:</b> Артур читает входы в эпизоды «в манере детективной хроники» (интонация «Следствие вели», 2–3 фразы, дальше обычным голосом — пародия-оммаж, не имитация); под это — заказная музыка-стилизация «ретро-детектив» (НЕ оригинальный саундтрек передачи), тиканье часов + щелчок диапроектора между «фигурантами», стук печатной машинки на титрах-датах.</p>
+        <p><b>Монтажом:</b> ч/б стоп-кадры с зерном VHS, титры-даты в углу как в хронике, «улики» крупным планом: тележка, ценник, кассовый чек.</p>
+        <p><b>Текстом</b> — готовые куски:</p>
+        <details><summary>вход в главу (интонация хроники)</summary><blockquote>Москва. Апрель 1994 года. На Ленинском проспекте открывается магазин, в котором покупателям разрешают… трогать товар руками. По меркам страны прилавков — почти преступление. С этого магазина и начнётся наше дело.</blockquote></details>
+        <details><summary>связки между «фигурантами»</summary><blockquote>«Тем временем в Краснодаре…» · «А теперь — внимание. Запомните этого человека: оптовик, дистрибьютор Procter &amp; Gamble…» · «Пятеро подозреваемых уже на карте. Остался последний.»</blockquote></details>
+        <details><summary>мем-инструмент «но это уже совсем другая история» — закрывать боковые ветки</summary><blockquote>Про «Дикси» и «Седьмой континент» вместо длинных абзацев: «Судьба у этого магазина будет отдельная, тёмная… но это уже совсем другая история. Наше дело — про войну, и она начинается». Так фирменная фраза Каневского ещё и сокращает главу (пункты 03 и 05).</blockquote></details>
+        <p style="margin-top:6px"><b>Юридически:</b> без записей голоса Каневского, без кадров и музыки НТВ, без имени в титрах — только узнаваемая манера как оммаж. Это безопасно и даже смешнее.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 8:30–11:36 ГЛАВА 2000-х ═══ -->
+  <section id="s4">
+    <div class="sec-head"><h2>Глава про 2000-е</h2><span class="time">8:30–11:36 · отвал: высокий</span></div>
+
+    <div class="item hi"><div class="chk"><input type="checkbox" data-k="q06"></div>
+      <div class="it-head"><span class="num">05</span><h3>Реплики скептика, Дикси и СК — пробросом</h3><span class="lvl hi">отвал: высокий</span></div>
+      <div class="body">
+        <p class="was">Вторая волна перечислений сразу после первой (IPO, расширения, слияние). Во всём сценарии — ни одной реплики скептика.</p>
+        <p class="why"><b>Почему:</b> зритель распознаёт шаблон «дальше будет так же» и уходит от прогноза скуки. Суммарно с главой 90-х — 8 минут без поворотов.</p>
+        <details><summary>готовые реплики скептика</summary><blockquote>Про слияние: «Стоп. Дискаунтер из Питера объединяется с приличным московским супермаркетом? Это как если бы палатка с шаурмой купила ресторан. Кто тут кого купил на самом деле — и зачем?» Про биржу Дикси: «Погодите, компания с долгами больше прибыли выходит на биржу — и ей несут деньги? Несут. На растущем рынке инвесторы прощают всё. Запомните эту фразу — она ещё выстрелит».</blockquote></details>
+      </div>
+    </div>
+
+    <div class="item fact"><div class="chk"><input type="checkbox" data-k="q07"></div>
+      <div class="it-head"><span class="num">06</span><h3>«Первым из ритейлеров на биржу» → «первым из продуктовых»</h3><span class="lvl fact">ошибка</span></div>
+      <div class="body">
+        <p class="was">Первой публичной розницей России была «Аптечная сеть 36,6» (январь 2003) — на полтора года раньше «Седьмого континента» (ноябрь 2004).</p>
+        <div class="do"><b>Как надо</b>добавить одно слово: «первым из продуктовых ритейлеров»</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 14:36–16:24 МОНОЛОГ + СТА ═══ -->
+  <section id="s5">
+    <div class="sec-head"><h2>Монолог Артура + первый СТА</h2><span class="time">14:36–16:24 · отвал: средний</span></div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q08"></div>
+      <div class="it-head"><span class="num">07</span><h3>Монолог про «директора по качеству»: разрезать перебивкой</h3><span class="lvl mid">отвал: средний</span></div>
+      <div class="body">
+        <p class="was">Самый длинный сплошной абзац сценария (118 слов) — история отличная, но идёт монолитом.</p>
+        <p class="why"><b>Почему:</b> даже сильному рассказу на 15-й минуте нужна работа для глаз — баннер «У нас теперь есть директор по качеству», фасады «до/после».</p>
+      </div>
+    </div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q09"></div>
+      <div class="it-head"><span class="num">08</span><h3>СТА-стратегия: один телеграм-призыв, раньше + подписка на YouTube</h3><span class="lvl mid">отвал: средний</span></div>
+      <div class="body">
+        <p class="was">Сейчас оба СТА — на телеграм, на 54% и 68% хронометража, с одинаковым обещанием; и первый стоит сразу после монолога (двойной повод выйти: «история кончилась» + «началась реклама»). Призыва подписаться на сам канал нет вообще.</p>
+        <p class="why"><b>Почему:</b> тёплая аудитория первой трети не слышит ни одного призыва, а повтор рекламы без новой причины раздражает.</p>
+        <p>Предложение: телеграм-СТА один, на ~7–9 минуте (после лестницы игроков, коротко — одна фраза); на месте нынешнего первого — мостик сразу в продажу «Магнита»; подписка на YouTube — вторым касанием в финале.</p>
+        <details><summary>готовый мостик вместо СТА после монолога</summary><blockquote>Вот на этом «Пятёрочка» и перевернула наш город. И пока она чинила качество магазин за магазином, в Краснодаре назревало решение, которое никто не мог представить. Человек, построивший самую большую сеть страны, собрался выйти из игры.</blockquote></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 18:00 ГЕРМАНИЯ ═══ -->
+  <section id="s6">
+    <div class="sec-head"><h2>Немецкая вставка</h2><span class="time">18:00–18:54 · отвал: средний</span></div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q10"></div>
+      <div class="it-head"><span class="num">09</span><h3>Дуэль вместо справки, короче на треть</h3><span class="lvl mid">отвал: средний</span></div>
+      <div class="body">
+        <p class="was">Aldi → Lidl → Tesco → Carrefour → Walmart перечнем. Мысль «пустой ступеньки» — золото, её не трогаем.</p>
+        <p class="why"><b>Почему:</b> прыжок из «наших» героев в лекцию про чужих — часть зрителей мотает.</p>
+        <details><summary>готовый кусок-дуэль</summary><blockquote>Проверим этот закон на самом сильном игроке планеты. Walmart — крупнейший ритейлер мира — приходит в Германию, на поле братьев Альбрехт. Девять лет войны. Миллиарды долларов. В 2006-м Walmart собирает вещи и уходит. Против «дешевле и понятнее» не выстоял даже он.</blockquote></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 19:36 СТА №2 ═══ -->
+  <section id="s7">
+    <div class="sec-head"><h2>Второй СТА</h2><span class="time">19:36 · отвал: средний</span></div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q11"></div>
+      <div class="it-head"><span class="num">10</span><h3>Вместо дубля рекламы — форвард-хук</h3><span class="lvl mid">отвал: средний</span></div>
+      <div class="body">
+        <p class="was">«СТА: Если вам нравится разбирать бизнес вот так… подпишитесь на канал» — второй телеграм-призыв через 4 минуты после первого, с тем же обещанием.</p>
+        <p class="why"><b>Почему:</b> повтор рекламы = раздражение ровно перед лучшей частью ролика.</p>
+        <details><summary>готовый форвард-хук</summary><blockquote>И вот с этого момента игра ломается. До сих пор сети воевали за покупателя. Сейчас они начнут пожирать друг друга — целыми сетями. Смотрите, кто первый.</blockquote></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 20:24–25:54 ЧИЖИК/ВКУСВИЛЛ ═══ -->
+  <section id="s8">
+    <div class="sec-head"><h2>Чижик · ВкусВилл · готовая еда</h2><span class="time">20:24–25:54 · отвал: низкий — блок сильный, два штриха</span></div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q12"></div>
+      <div class="it-head"><span class="num">11</span><h3>Обсудить: вернуть блок «рост без вывески» (X5 «Около»)?</h3><span class="lvl mid">по желанию</span></div>
+      <div class="body">
+        <p class="was">В этой версии выпал самый «пересказываемый» блок: лавки без вывески, которые снабжает X5, и приём «проверь магазин у подъезда по полкам». Факты проверены: направление «Около» — 6 000 франшизных лавок + 18 000 на оптовой платформе. Естественное место — здесь, после «Чижика», ~60–70 секунд.</p>
+        <p class="why"><b>Почему стоит:</b> это то, что зритель проверяет после ролика и пересказывает друзьям — главное топливо для шеров.</p>
+      </div>
+    </div>
+
+    <div class="item fact"><div class="chk"><input type="checkbox" data-k="q13"></div>
+      <div class="it-head"><span class="num">12</span><h3>Готовая еда: «растёт на треть ежегодно» → «плюс треть за год»</h3><span class="lvl fact">уточнение</span></div>
+      <div class="body">
+        <p class="was">«216 миллиардов рублей в год, и цифра растет на треть ежегодно» — подтверждён рост +35,1% только за 2025 год.</p>
+        <div class="do"><b>Как надо</b>«216 миллиардов за год — плюс треть к прошлому году»</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 25:54 ТАБЛИЦА ═══ -->
+  <section id="s9">
+    <div class="sec-head"><h2>Финальная таблица</h2><span class="time">25:54–26:36 · отвал: высокий</span></div>
+
+    <div class="item hi"><div class="chk"><input type="checkbox" data-k="q14"></div>
+      <div class="it-head"><span class="num">13</span><h3>Таблицу голосом — только три факта</h3><span class="lvl hi">отвал: высокий</span></div>
+      <div class="body">
+        <p class="was">Восемь строк выручек и процентов проговариваются подряд, выводы — после.</p>
+        <p class="why"><b>Почему:</b> на 26-й минуте — самая лояльная аудитория, и перед разгадкой её кормят потоком цифр.</p>
+        <details><summary>готовая озвучка</summary><blockquote>Весь счёт — на ваших экранах, разглядывайте. Голосом — три вещи. Первое: у «Магнита» первый убыток за всю историю — счёт за стиль «отвечать деньгами». Второе: «Чижик» — плюс шестьдесят семь процентов за год, быстрее всех в стране. Третье: от расклада из начала не осталось почти ничего.</blockquote></details>
+      </div>
+    </div>
+
+    <div class="item fact"><div class="chk"><input type="checkbox" data-k="q15"></div>
+      <div class="it-head"><span class="num">14</span><h3>«Перекрёсток»: убрать «трафик −1,7%»</h3><span class="lvl fact">ошибка</span></div>
+      <div class="body">
+        <p class="was">«трафик −1,7%: единственный, от кого уходят люди» — но −1,7% это трафик ВСЕЙ X5 за I квартал 2026-го (у «Перекрёстка» тогда −0,8%); за 2025 год X5 трафик по сетям не раскрывала.</p>
+        <div class="do"><b>Как надо</b>«покупатели ходят реже — весь рост за счёт чека»</div>
+      </div>
+    </div>
+
+    <div class="item fact"><div class="chk"><input type="checkbox" data-k="q16"></div>
+      <div class="it-head"><span class="num">15</span><h3>ВкусВилл: 358,6 → 361 млрд</h3><span class="lvl fact">уточнение</span></div>
+      <div class="body">
+        <p class="was">358,6 — отчётность одного юрлица (РСБУ). Вся сеть по данным компании — 361 млрд (+9,73%). «Закрыл 286 магазинов» — уже исправлено верно ✅.</p>
+        <div class="do"><b>Как надо</b>361 млрд ₽ (данные компании)</div>
+      </div>
+    </div>
+
+    <div class="item fact"><div class="chk"><input type="checkbox" data-k="q17"></div>
+      <div class="it-head"><span class="num">16</span><h3>«Азбука вкуса поглощена» → «контрольный пакет»</h3><span class="lvl fact">уточнение</span></div>
+      <div class="body">
+        <p class="was">Куплена не целиком: контрольный пакет 81,55% за 29,65 млрд ₽ (сделка закрыта 20.05.2025).</p>
+        <div class="do"><b>Как надо</b>«контрольный пакет — у „Магнита" с 2025-го»</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 26:36–31:00 ФИНАЛ ═══ -->
+  <section id="s10">
+    <div class="sec-head"><h2>Финал</h2><span class="time">26:36–31:00 · отвал низкий, но послевкусие 15/30 — главный разговор</span></div>
+    <p class="sub" style="margin-bottom:6px">Порядок нового финала: таблица (3 факта) → перебор версий → разгадка → мораль Артура → Галицкий-кольцо → вопрос в комменты → «Эта партия окончена» → тизер.</p>
+
+    <div class="item hi"><div class="chk"><input type="checkbox" data-k="q18"></div>
+      <div class="it-head"><span class="num">17</span><h3>Перебор ложных версий перед разгадкой</h3><span class="lvl hi">высокий эффект</span></div>
+      <div class="body">
+        <p class="was">Сейчас: ответ «активом стала система» выдан сразу после таблицы, готовым фактом.</p>
+        <p class="why"><b>Почему:</b> зритель не успевает «догадаться сам» → инсайт звучит как строка из отчёта → нечего пересказать другу.</p>
+        <details><summary>готовый текст (+15 секунд)</summary><blockquote>Может, дело в цене? Нет — у «Магнита» цены не хуже. В логистике? Тоже нет — склады и грузовики теперь у всех. В людях? Мы видели: сборная лучших людей рынка не догнала. Тогда в чём?</blockquote></details>
+      </div>
+    </div>
+
+    <div class="item hi"><div class="chk"><input type="checkbox" data-k="q19"></div>
+      <div class="it-head"><span class="num">18</span><h3>Вшить мораль Артура-предпринимателя</h3><span class="lvl hi">высокий эффект</span></div>
+      <div class="body">
+        <p class="was">Финал объясняет рынок, но не переводит вывод на жизнь зрителя; главный козырь канала — опыт действующего франчайзи — в финале не звучит.</p>
+        <p class="why"><b>Почему:</b> зритель выходит «посмотрел», а не «стал умнее и хочу действовать» → незачем подписываться.</p>
+        <details><summary>готовый текст (из интервью Артура, сокращённо)</summary><blockquote>Для меня тут два вывода. Первый: на дистанции побеждает не гений, а тот, кто строит систему. Я это знаю на своей шкуре — у меня девять пиццерий, и открыл я их потому, что встал на рельсы чужой системы, франшизы. И если соберётесь на такие рельсы в продуктах — например, франшиза «Пятёрочки» — поймите: ваш бизнес там будет не про продукты. Ваш бизнес — найти отличную локацию за недорого. Это сервисный бизнес для огромной машины, с этим пониманием и заходите. Второй вывод: система выигрывает, только когда бьёт в свою специализацию. «Чижик» — цена. «ВкусВилл» — доверие. «Азбука» — премиум. Побеждать всех на всех рынках невозможно.</blockquote></details>
+      </div>
+    </div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q20"></div>
+      <div class="it-head"><span class="num">19</span><h3>Финал — человеческим языком (4 замены)</h3><span class="lvl mid">язык</span></div>
+      <div class="body">
+        <p class="was">В кульминации подряд четыре «нейронных» конструкции: «это не недостаток, это конструкция» · зеркальное «имя перестало быть активом / активом стала система» · двойной вопрос «И неужели…? И мечта…?» · «след, который человек оставляет».</p>
+        <p class="why"><b>Почему:</b> ровно в точке, где решается лайк и подписка, текст начинает звучать как ИИ.</p>
+        <details><summary>готовые замены</summary><blockquote>«У „Чижика" нет лица — и в этом весь фокус: систему не уволишь, не переманишь, у неё не бывает плохого настроения» · «Здесь больше не важно имя. Важна система, у которой имени нет» · один вопрос вместо двух · про Галицкого: «это уже другая капитализация — не в отчётах, а в трибунах стадиона, который он построил».</blockquote></details>
+      </div>
+    </div>
+
+    <div class="item hi"><div class="chk"><input type="checkbox" data-k="q21"></div>
+      <div class="it-head"><span class="num">20</span><h3>Концовка: вопрос → «Эта партия окончена» → тизер</h3><span class="lvl hi">высокий эффект</span></div>
+      <div class="body">
+        <p class="was">Сейчас: «Спасибо за просмотр! Увидимся в следующих выпусках!». Вопрос зрителям был в прошлой версии — потерялся.</p>
+        <p class="why"><b>Почему:</b> нет вопроса → нет комментариев → алгоритм не разгоняет. Нет ритуала → канал не запоминается. Нет тизера → нет причины вернуться.</p>
+        <details><summary>готовый текст</summary><blockquote>Напишите в комментариях, в какой магазин с этой лестницы ходите вы — проверим карту страны прямо здесь. Эта партия окончена. Но следующая уже началась, и она страшнее для сетей, чем все предыдущие: доставка за шесть лет выросла с 43 миллиардов до 1,6 триллиона. Война, которая убьёт сам поход в магазин, — разберём отдельно.</blockquote></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ВНЕ ТАЙМИНГА ═══ -->
+  <section>
+    <div class="sec-head"><h2>Вне тайминга</h2><span class="time">общие решения</span></div>
+
+    <div class="item mid"><div class="chk"><input type="checkbox" data-k="q22"></div>
+      <div class="it-head"><span class="num">21</span><h3>Хронометраж: 31 → 26–28 минут</h3><span class="lvl mid">структура</span></div>
+      <div class="body">
+        <p class="was">Сокращение почти целиком берётся из пунктов 03–05 и 09 (главы 90-х/2000-х и Германия) — остальное не трогаем.</p>
+        <p class="why"><b>Почему:</b> рабочий таргет формата — 24–26 минут; каждая лишняя минута перечислений тянет средний досмотр вниз.</p>
+      </div>
+    </div>
+
+    <div class="item fact"><div class="chk"><input type="checkbox" data-k="q23"></div>
+      <div class="it-head"><span class="num">22</span><h3>Допроверить новые цифры этой версии</h3><span class="lvl fact">до эфира</span></div>
+      <div class="body">
+        <p class="was">«СТМ — 60% полки Чижика» · средний чек «525 → 882 → к тысяче» · «рынок продуктов −10% в 2015-м — худший в истории» · «150 000 ларьков» · «5 577 против 1 848 грузовиков» · «Дикси: IPO 2007, $359 млн».</p>
+        <div class="do"><b>Предложение</b>прогоняем нашей проверкой в 2–3 потока до записи — как остальные цифры</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="keep" style="margin-top:34px"><b>Что отлично и не трогаем:</b> хук «Сдачи не надо» и Ночь ковшей · социальная лестница и карточки игроков · истории Артура от первого лица (мама, Невинномысск, пиццерии) · сборная звёзд «Магнита» · деталь 2013 «рост рынка остановился» · «пустая ступенька» и афоризм «на рынке не бывает пустых ступенек» · кольцо Галицкого. Оценки версии: script-scorer 65/100 · хук 8/10 · после правок реалистично 85+ и потенциал 500 тыс. – 1 млн просмотров.</div>
+
+  <p class="note">Материалы глубже: «Разбор сценария Жени 17.07 — финал, середина, факты.html» (первая страница разбора) · «Снижаем отвал — зона за зоной….html» (детальные карточки) · «04-фактчек.md» (все источники) · «Оценка сценария Жени от 17.07 — сводка по 5 скиллам.md». Все файлы — в папке выпуска 05.</p>
+</main>
+
+<script>
+  const boxes=[...document.querySelectorAll('input[type=checkbox]')];
+  const KEY='vyp05-sozvon-checks-v2';
+  let st={}; try{st=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+  const upd=()=>{const n=boxes.filter(b=>b.checked).length;
+    document.getElementById('done').textContent=n;
+    document.getElementById('fill').style.width=(n/boxes.length*100)+'%';};
+  boxes.forEach(b=>{b.checked=!!st[b.dataset.k];
+    b.addEventListener('change',()=>{st[b.dataset.k]=b.checked;
+      localStorage.setItem(KEY,JSON.stringify(st));upd();});});
+  upd();
+</script>
