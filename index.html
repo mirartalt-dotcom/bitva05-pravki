@@ -47,6 +47,12 @@
   .tl-scale{display:flex; justify-content:space-between; font:600 11px/2.4 var(--mono); color:var(--muted);}
   .legend{display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin-top:6px;}
   .legend i{display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:6px; vertical-align:-1px;}
+  .ztags{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+  .ztag{font:600 11.5px/1.5 var(--mono); text-decoration:none; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:6px 9px; white-space:nowrap;}
+  .ztag b{font-weight:800;}
+  .ztag.hi{border-left:4px solid var(--red);}
+  .ztag.mid{border-left:4px solid var(--amber-seg);}
+  .ztag .pg{color:var(--muted);}
 
   .counter{position:sticky; top:0; z-index:10; background:var(--bg); padding:10px 0; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
   .counter b{font:700 14px/1 var(--mono);}
@@ -95,18 +101,18 @@
   <div class="tl-wrap">
     <div class="tl">
       <div class="tl-bar" aria-label="Таймлайн вероятности отвала — сегменты ведут к пунктам">
-        <a class="seg-warn" style="width:4.8%"  href="#s1" data-z="01" data-tip="0:00–1:30 · хук"></a>
-        <a class="seg-ok"   style="width:6.8%"  href="#s2" data-z="" data-tip="1:30–3:36 · лестница игроков · пункт 02"></a>
-        <a class="seg-bad"  style="width:15.8%" href="#s3" data-z="03–04" data-tip="3:36–8:30 · глава 90-х"></a>
-        <a class="seg-bad"  style="width:10.0%" href="#s4" data-z="05–06" data-tip="8:30–11:36 · глава 2000-х"></a>
+        <a class="seg-warn" style="width:4.8%"  href="#s1" data-z="01" data-tip="0:00–1:30 · хук · стр. 1"></a>
+        <a class="seg-ok"   style="width:6.8%"  href="#s2" data-z="" data-tip="1:30–3:36 · лестница · пункт 02 · стр. 1–2"></a>
+        <a class="seg-bad"  style="width:15.8%" href="#s3" data-z="03–04" data-tip="3:36–8:30 · глава 90-х · стр. 2–3"></a>
+        <a class="seg-bad"  style="width:10.0%" href="#s4" data-z="05–06" data-tip="8:30–11:36 · глава 2000-х · стр. 3–4"></a>
         <span class="seg-ok" style="width:9.7%"></span>
-        <a class="seg-warn" style="width:5.8%"  href="#s5" data-z="07–08" data-tip="14:36–16:24 · монолог + первый СТА"></a>
+        <a class="seg-warn" style="width:5.8%"  href="#s5" data-z="07–08" data-tip="14:36–16:24 · монолог + СТА · стр. 5"></a>
         <span class="seg-ok" style="width:5.2%"></span>
-        <a class="seg-warn" style="width:2.9%"  href="#s6" data-z="09" data-tip="18:00–18:54 · Германия"></a>
-        <a class="seg-warn" style="width:2.6%"  href="#s7" data-z="10" data-tip="19:36 · второй СТА"></a>
-        <a class="seg-ok"   style="width:19.7%" href="#s8" data-z="" data-tip="20:24–25:54 · Чижик и ВкусВилл ок · пункты 11–12"></a>
-        <a class="seg-bad"  style="width:2.6%"  href="#s9" data-z="13–16" data-tip="25:54–26:36 · финальная таблица"></a>
-        <a class="seg-fin"  style="width:14.1%" href="#s10" data-z="17–20" data-tip="26:36–31:00 · финал: отвал низкий, но правки послевкусия"></a>
+        <a class="seg-warn" style="width:2.9%"  href="#s6" data-z="09" data-tip="18:00–18:54 · Германия · стр. 6"></a>
+        <a class="seg-warn" style="width:2.6%"  href="#s7" data-z="10" data-tip="19:36 · второй СТА · стр. 7"></a>
+        <a class="seg-ok"   style="width:19.7%" href="#s8" data-z="" data-tip="20:24–25:54 · Чижик и ВкусВилл ок · пункты 11–12 · стр. 7–8"></a>
+        <a class="seg-bad"  style="width:2.6%"  href="#s9" data-z="13–16" data-tip="25:54–26:36 · финальная таблица · стр. 9"></a>
+        <a class="seg-fin"  style="width:14.1%" href="#s10" data-z="17–20" data-tip="26:36–31:00 · финал · стр. 9–10"></a>
       </div>
       <div class="tl-scale"><span>0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>31 мин</span></div>
     </div>
@@ -116,13 +122,23 @@
       <span><i style="background:var(--green-soft); border:1px solid var(--line)"></i>низкая</span>
       <span>цифры на сегментах = номера пунктов, сегменты кликаются</span>
     </div>
+    <div class="ztags">
+      <a class="ztag mid" href="#s1"><b>01</b> хук · 0:00–1:30 · <span class="pg">стр. 1</span></a>
+      <a class="ztag hi"  href="#s3"><b>03–04</b> 90-е · 3:36–8:30 · <span class="pg">стр. 2–3</span></a>
+      <a class="ztag hi"  href="#s4"><b>05–06</b> 2000-е · 8:30–11:36 · <span class="pg">стр. 3–4</span></a>
+      <a class="ztag mid" href="#s5"><b>07–08</b> монолог+СТА · 14:36–16:24 · <span class="pg">стр. 5</span></a>
+      <a class="ztag mid" href="#s6"><b>09</b> Германия · 18:00–18:54 · <span class="pg">стр. 6</span></a>
+      <a class="ztag mid" href="#s7"><b>10</b> второй СТА · 19:36 · <span class="pg">стр. 7</span></a>
+      <a class="ztag hi"  href="#s9"><b>13–16</b> таблица · 25:54–26:36 · <span class="pg">стр. 9</span></a>
+    </div>
+    <div class="legend"><span>страницы — по гугл-доку Жени от 17.07 (при ~450 словах на страницу), точность ±1 страница</span></div>
   </div>
 
   <div class="counter"><b><span id="done">0</span> / 22 принято</b><div class="bar"><i id="fill"></i></div><span style="font-size:13px;color:var(--muted)">галочки сохраняются на этом компьютере</span></div>
 
   <!-- ═══ 0:00–1:30 ХУК ═══ -->
   <section id="s1">
-    <div class="sec-head"><h2>Хук</h2><span class="time">0:00–1:30 · отвал: средний</span></div>
+    <div class="sec-head"><h2>Хук</h2><span class="time">0:00–1:30 · стр. 1 · отвал: средний</span></div>
 
     <div class="item mid"><div class="chk"><input type="checkbox" data-k="q02"></div>
       <div class="it-head"><span class="num">01</span><h3>Обещание выпуска — к 15-й секунде</h3><span class="lvl mid">отвал: средний</span></div>
@@ -136,7 +152,7 @@
 
   <!-- ═══ 1:30–3:36 ЛЕСТНИЦА ═══ -->
   <section id="s2">
-    <div class="sec-head"><h2>Лестница игроков</h2><span class="time">1:30–3:36 · отвал: низкий — блок работает, одна цифра</span></div>
+    <div class="sec-head"><h2>Лестница игроков</h2><span class="time">1:30–3:36 · стр. 1–2 · отвал: низкий — блок работает, одна цифра</span></div>
 
     <div class="item fact"><div class="chk"><input type="checkbox" data-k="q03"></div>
       <div class="it-head"><span class="num">02</span><h3>«Каждый третий рубль» → «почти каждый третий»</h3><span class="lvl fact">уточнение</span></div>
@@ -149,7 +165,7 @@
 
   <!-- ═══ 3:36–8:30 ГЛАВА 90-х ═══ -->
   <section id="s3">
-    <div class="sec-head"><h2>Глава про 90-е</h2><span class="time">3:36–8:30 · отвал: высокий</span></div>
+    <div class="sec-head"><h2>Глава про 90-е</h2><span class="time">3:36–8:30 · стр. 2–3 · отвал: высокий</span></div>
 
     <div class="item hi"><div class="chk"><input type="checkbox" data-k="q04"></div>
       <div class="it-head"><span class="num">03</span><h3>Рамка пари + квиз + сжать на четверть</h3><span class="lvl hi">отвал: высокий</span></div>
@@ -178,7 +194,7 @@
 
   <!-- ═══ 8:30–11:36 ГЛАВА 2000-х ═══ -->
   <section id="s4">
-    <div class="sec-head"><h2>Глава про 2000-е</h2><span class="time">8:30–11:36 · отвал: высокий</span></div>
+    <div class="sec-head"><h2>Глава про 2000-е</h2><span class="time">8:30–11:36 · стр. 3–4 · отвал: высокий</span></div>
 
     <div class="item hi"><div class="chk"><input type="checkbox" data-k="q06"></div>
       <div class="it-head"><span class="num">05</span><h3>Реплики скептика, Дикси и СК — пробросом</h3><span class="lvl hi">отвал: высокий</span></div>
@@ -200,7 +216,7 @@
 
   <!-- ═══ 14:36–16:24 МОНОЛОГ + СТА ═══ -->
   <section id="s5">
-    <div class="sec-head"><h2>Монолог Артура + первый СТА</h2><span class="time">14:36–16:24 · отвал: средний</span></div>
+    <div class="sec-head"><h2>Монолог Артура + первый СТА</h2><span class="time">14:36–16:24 · стр. 5 · отвал: средний</span></div>
 
     <div class="item mid"><div class="chk"><input type="checkbox" data-k="q08"></div>
       <div class="it-head"><span class="num">07</span><h3>Монолог про «директора по качеству»: разрезать перебивкой</h3><span class="lvl mid">отвал: средний</span></div>
@@ -223,7 +239,7 @@
 
   <!-- ═══ 18:00 ГЕРМАНИЯ ═══ -->
   <section id="s6">
-    <div class="sec-head"><h2>Немецкая вставка</h2><span class="time">18:00–18:54 · отвал: средний</span></div>
+    <div class="sec-head"><h2>Немецкая вставка</h2><span class="time">18:00–18:54 · стр. 6 · отвал: средний</span></div>
 
     <div class="item mid"><div class="chk"><input type="checkbox" data-k="q10"></div>
       <div class="it-head"><span class="num">09</span><h3>Дуэль вместо справки, короче на треть</h3><span class="lvl mid">отвал: средний</span></div>
@@ -237,7 +253,7 @@
 
   <!-- ═══ 19:36 СТА №2 ═══ -->
   <section id="s7">
-    <div class="sec-head"><h2>Второй СТА</h2><span class="time">19:36 · отвал: средний</span></div>
+    <div class="sec-head"><h2>Второй СТА</h2><span class="time">19:36 · стр. 7 · отвал: средний</span></div>
 
     <div class="item mid"><div class="chk"><input type="checkbox" data-k="q11"></div>
       <div class="it-head"><span class="num">10</span><h3>Вместо дубля рекламы — форвард-хук</h3><span class="lvl mid">отвал: средний</span></div>
@@ -251,7 +267,7 @@
 
   <!-- ═══ 20:24–25:54 ЧИЖИК/ВКУСВИЛЛ ═══ -->
   <section id="s8">
-    <div class="sec-head"><h2>Чижик · ВкусВилл · готовая еда</h2><span class="time">20:24–25:54 · отвал: низкий — блок сильный, два штриха</span></div>
+    <div class="sec-head"><h2>Чижик · ВкусВилл · готовая еда</h2><span class="time">20:24–25:54 · стр. 7–8 · отвал: низкий — блок сильный, два штриха</span></div>
 
     <div class="item mid"><div class="chk"><input type="checkbox" data-k="q12"></div>
       <div class="it-head"><span class="num">11</span><h3>Обсудить: вернуть блок «рост без вывески» (X5 «Около»)?</h3><span class="lvl mid">по желанию</span></div>
@@ -272,7 +288,7 @@
 
   <!-- ═══ 25:54 ТАБЛИЦА ═══ -->
   <section id="s9">
-    <div class="sec-head"><h2>Финальная таблица</h2><span class="time">25:54–26:36 · отвал: высокий</span></div>
+    <div class="sec-head"><h2>Финальная таблица</h2><span class="time">25:54–26:36 · стр. 9 · отвал: высокий</span></div>
 
     <div class="item hi"><div class="chk"><input type="checkbox" data-k="q14"></div>
       <div class="it-head"><span class="num">13</span><h3>Таблицу голосом — только три факта</h3><span class="lvl hi">отвал: высокий</span></div>
@@ -310,7 +326,7 @@
 
   <!-- ═══ 26:36–31:00 ФИНАЛ ═══ -->
   <section id="s10">
-    <div class="sec-head"><h2>Финал</h2><span class="time">26:36–31:00 · отвал низкий, но послевкусие 15/30 — главный разговор</span></div>
+    <div class="sec-head"><h2>Финал</h2><span class="time">26:36–31:00 · стр. 9–10 · отвал низкий, но послевкусие 15/30 — главный разговор</span></div>
     <p class="sub" style="margin-bottom:6px">Порядок нового финала: таблица (3 факта) → перебор версий → разгадка → мораль Артура → Галицкий-кольцо → вопрос в комменты → «Эта партия окончена» → тизер.</p>
 
     <div class="item hi"><div class="chk"><input type="checkbox" data-k="q18"></div>
